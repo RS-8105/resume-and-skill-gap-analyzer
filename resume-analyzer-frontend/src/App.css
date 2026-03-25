@@ -1,0 +1,326 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap');
+
+:root {
+  --bg-color: #fdfd96;
+  --primary-color: #ff69b4; /* Hot Pink */
+  --secondary-color: #0ddff2; /* Neon Cyan */
+  --card-bg: #ffffff;
+  --border-width: 4px;
+  --border-color: #000000;
+  --shadow-offset: 8px;
+  --border-radius: 0px; /* Neo-brutalism relies on sharp corners */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+  font-family: 'Space Grotesk', sans-serif;
+  color: var(--border-color);
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.app-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 100vh;
+  padding: 60px 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* Typography */
+h1 {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 10px 0;
+  background-color: var(--secondary-color);
+  display: inline-block;
+  padding: 10px 20px;
+  border: var(--border-width) solid var(--border-color);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0px 0px var(--border-color);
+  transform: rotate(-2deg);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: white;
+  border: 3px solid #000;
+  display: inline-block;
+  padding: 5px 15px;
+  box-shadow: 4px 4px 0px 0px #000;
+}
+
+/* Cards & Containers */
+.main-card, .result-card {
+  background-color: var(--card-bg);
+  border: var(--border-width) solid var(--border-color);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0px 0px var(--border-color);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.result-card {
+  background-color: #e0d4ff; /* Lavendar tint for results */
+}
+
+/* Inputs */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group label {
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  padding: 15px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000000;
+  border: 3px solid var(--border-color);
+  background-color: white;
+  box-shadow: 4px 4px 0px 0px var(--border-color);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+input[type="text"]:focus, textarea:focus {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px var(--border-color);
+  background-color: #fff9c4;
+}
+
+/* File Upload Zone */
+.file-upload-zone {
+  width: 100%;
+  background-color: #e2f8ff; /* Light blue tint */
+  border: 4px dashed var(--border-color);
+  padding: 40px 20px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.file-upload-zone:hover {
+  background-color: #bdffcc;
+}
+
+.file-upload-zone input[type="file"] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-name {
+  display: inline-block;
+  background: black;
+  color: white;
+  padding: 5px 15px;
+  margin-top: 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+/* Primary Button */
+.analyze-btn {
+  background-color: var(--primary-color);
+  color: #fff;
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 20px;
+  border: var(--border-width) solid var(--border-color);
+  box-shadow: 6px 6px 0px 0px var(--border-color);
+  cursor: pointer;
+  transition: all 0.1s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.analyze-btn:active {
+  transform: translate(6px, 6px);
+  box-shadow: 0px 0px 0px 0px var(--border-color);
+}
+
+.analyze-btn.loading {
+  background-color: #ffb6c1;
+  color: #000;
+  cursor: not-allowed;
+  transform: translate(6px, 6px);
+  box-shadow: 0px 0px 0px 0px var(--border-color);
+}
+
+/* Results Content */
+.result-header h3 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  margin: 0 0 5px 0;
+  background-color: #fff;
+  display: inline-block;
+  padding: 0 10px;
+  border: 3px solid #000;
+}
+
+.metrics-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.metric-item {
+  background: #fff;
+  border: 3px solid #000;
+  padding: 15px;
+  box-shadow: 4px 4px 0px 0px #000;
+}
+
+.metric-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.progress-bar-container {
+  height: 24px;
+  background-color: #ddd;
+  border: 3px solid #000;
+  width: 100%;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--secondary-color);
+  border-right: 3px solid #000;
+  transition: width 1s ease-in-out;
+}
+
+.sim-bar {
+  background-color: #a7f3d0;
+}
+
+.skill-group h4 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin: 0 0 15px 0;
+  border-bottom: 4px solid #000;
+  padding-bottom: 5px;
+  display: inline-block;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.badge {
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 8px 15px;
+  border: 3px solid #000;
+  box-shadow: 3px 3px 0px 0px #000;
+  background: #fff;
+}
+
+.badge.present {
+  background: #bdffcc;
+}
+
+.badge.missing {
+  background: #ffb6c1;
+}
+
+.recommendations-section {
+  background: #fff;
+  border: 4px solid #000;
+  padding: 25px;
+  box-shadow: 6px 6px 0px 0px #000;
+  margin-top: 10px;
+}
+
+.recommendations-section h4 {
+  background-color: #fff000;
+  display: inline-block;
+  padding: 5px 15px;
+  border: 3px solid #000;
+  text-transform: uppercase;
+  margin: 0 0 15px 0;
+  font-size: 1.3rem;
+  transform: rotate(-1deg);
+}
+
+.recommendations-section ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.recommendations-section li {
+  font-weight: 600;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.error-message {
+  background-color: #ffcccc;
+  border: 3px solid #000;
+  padding: 15px;
+  font-weight: 700;
+  color: #d8000c;
+  box-shadow: 4px 4px 0px 0px #000;
+}
