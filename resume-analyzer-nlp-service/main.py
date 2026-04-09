@@ -33,7 +33,7 @@ def get_llm_response(prompt: str) -> str:
         # Utilizing gemini-2.5-flash by default for fast, free-tier inclusive access!
         response = model.generate_content(
             prompt,
-            generation_config={"temperature": 0.0, "response_mime_type": "application/json"}
+            generation_config={"temperature": 0.0}
         )
         return response.text
     except Exception as e:
