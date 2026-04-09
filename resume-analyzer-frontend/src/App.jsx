@@ -116,7 +116,7 @@ function App() {
     formData.append('jobDescription', jobDescription)
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080'
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://resume-and-skill-gap-analyzer-backend.onrender.com'
       const response = await fetch(`${apiUrl}/upload`, {
         method: 'POST',
         body: formData,
