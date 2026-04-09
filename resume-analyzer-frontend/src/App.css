@@ -324,3 +324,53 @@ input[type="text"]:focus, textarea:focus {
   color: #d8000c;
   box-shadow: 4px 4px 0px 0px #000;
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .app-wrapper {
+    padding: 20px 10px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    padding: 8px 15px;
+  }
+  
+  .header p {
+    font-size: 1rem;
+  }
+  
+  .main-card, .result-card {
+    padding: 20px;
+  }
+  
+  input[type="text"], textarea {
+    padding: 12px;
+  }
+  
+  .analyze-btn {
+    font-size: 1.2rem;
+    padding: 15px;
+  }
+  
+  .result-header h3 {
+    font-size: 1.5rem;
+  }
+  
+  .metric-header {
+    font-size: 1rem;
+  }
+  
+  .skill-group h4 {
+    font-size: 1.2rem;
+  }
+  
+  .badge {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+  
+  .recommendations-section h4 {
+    font-size: 1.1rem;
+  }
+}
