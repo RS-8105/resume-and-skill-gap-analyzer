@@ -1,142 +1,55 @@
-# AI Resume Skill Gap Analyzer
+# Resume & Skill Gap Analyzer
 
-An AI-powered full-stack application that analyzes resume alignment with target job roles using NLP techniques.
+An intelligent, AI-powered application that analyzes resumes against specific job descriptions. This tool leverages the Google Gemini API to identify missing skills, compare candidate qualifications with job requirements, and output a detailed skill gap analysis.
 
-## 🚀 Tech Stack
+## Project Structure
 
-- Frontend: React (Vite)
-- Backend: Spring Boot (Java)
-- NLP Service: FastAPI (Python)
-- Machine Learning: scikit-learn (TF-IDF + Cosine Similarity)
+This project uses a microservices architecture:
+*   **resume-analyzer-frontend**: A React application powered by Vite, featuring a sleek, responsive UI.
+*   **resume-analyzer-backend**: A Spring Boot Java service handling file uploads (PDF extraction) and orchestrating requests.
+*   **resume-analyzer-nlp-service**: A FastAPI Python service that securely integrates with Google Gemini to perform the NLP-based skill extraction and comparison.
 
----
+## Setup Instructions
 
-## 🏗 Architecture
+### 1. NLP Service (Python)
+1.  Navigate to `resume-analyzer-nlp-service`.
+2.  Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  Create a `.env` file containing your Gemini API Key:
+    ```env
+    GEMINI_API_KEY=your_google_gemini_api_key
+    ```
+4.  Run the application:
+    ```bash
+    uvicorn main:app --reload
+    ```
+    *The service will start on port 8000.*
 
-Frontend (React)
-        ↓
-Spring Boot Backend
-        ↓
-FastAPI NLP Microservice
+### 2. Backend Service (Spring Boot)
+1.  Navigate to `resume-analyzer-backend`.
+2.  Run the Spring Boot application using Maven:
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+    *The service will start on port 8080.*
 
----
+### 3. Frontend Service (React)
+1.  Navigate to `resume-analyzer-frontend`.
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the development server:
+    ```bash
+    npm run dev
+    ```
+    *The frontend will be accessible at http://localhost:5173.*
 
-## ✨ Features
+## Deployment
 
-- Resume PDF upload
-- Skill gap detection
-- TF-IDF similarity scoring
-- Present & missing skills visualization
-- Progress bars for match metrics
-- Microservice architecture
-
----
-
-## 📊 How It Works
-
-1. User uploads resume.
-2. Spring Boot extracts text from PDF.
-3. Backend sends resume text to FastAPI service.
-4. NLP service:
-   - Detects present/missing skills
-   - Calculates skill match percentage
-   - Computes cosine similarity
-5. Results displayed in React UI.
-
----
-
-## 🛠 Setup Instructions
-
-### Backend (Spring Boot)
-
-```bash
-cd backend
-./mvnw spring-boot:run
-
-```
-Runs on: http://localhost:8080
-
-NLP Service (FastAPI)
-cd nlp-service
-uvicorn main:app --reload
-
-Runs on: http://localhost:8000
-
-Frontend (React)
-cd frontend
-npm install
-npm run dev
-
-Runs on: http://localhost:5173
-
-📈 Future Improvements
-
-Add authentication
-
-Store resume analysis history
-
-Deploy using Docker
-
-Add embeddings (Sentence Transformers)
-
-Support more job roles
-
-👨‍💻 Author
-
-Built as a full-stack AI portfolio project.
-
-
----
-
-# 📌 Create requirements.txt (NLP folder)
-
-Inside `nlp-service/requirements.txt`:
-
-
-fastapi
-uvicorn
-scikit-learn
-pydantic
-
-
----
-
-# 📌 Add .gitignore Files
-
-### Root `.gitignore`
-
-
-node_modules/
-venv/
-target/
-pycache/
-*.class
-.env
-
-
----
-
-# 🚀 How To Create Repo
-
-In your root project folder:
-
-```bash
-git init
-git add .
-git commit -m "Initial commit - AI Resume Skill Gap Analyzer"
-
-Then:
-
-Go to GitHub
-
-Create new repository
-
-Copy remote URL
-
-Then:
-
-git remote add origin https://github.com/yourusername/ai-resume-skill-gap-analyzer.git
-git branch -M main
-git push -u origin main
-
-
+The application components are configured to be deployed independently.
+*   **Frontend**: Set up your Vercel/Netlify environment variable `VITE_API_URL` to point to the Spring Boot backend instance.
+*   **Backend**: Ensure the Spring Boot backend `NLP_SERVICE_URL` variable addresses your deployed FastAPI service.
+*   **NLP**: Provide the `GEMINI_API_KEY` configuration directly in your hosting provider's variables (e.g., Render/Railway).
