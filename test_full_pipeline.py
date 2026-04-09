@@ -14,7 +14,7 @@ except ImportError:
     sys.exit(1)
 
 url = "http://localhost:8080/upload"
-pdf_path = "c:\\Users\\Rushikesh\\Downloads\\resume-and-skill-gap-analyzer-main\\TestResume.pdf"
+pdf_path = "TestResume.pdf"
 
 payload = {
     'company': 'NextGen Tech',
