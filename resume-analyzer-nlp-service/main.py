@@ -31,7 +31,10 @@ def get_llm_response(prompt: str) -> str:
 
     try:
         # Utilizing gemini-2.5-flash by default for fast, free-tier inclusive access!
-        response = model.generate_content(prompt)
+        response = model.generate_content(
+            prompt,
+            generation_config={"temperature": 0.0, "response_mime_type": "application/json"}
+        )
         return response.text
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Gemini API Error: {str(e)}")
@@ -52,6 +55,8 @@ Analyze the following job description for '{company}' and extract:
 - Technical skills
 - Soft skills
 - Tools/technologies
+
+IMPORTANT: Consolidate similar skills, remove duplicates, and group skills with the same meaning. Keep the lists concise.
 
 You must output ONLY valid JSON.
 No explanation text.
@@ -80,14 +85,15 @@ Job Description:
                     detail=f"Failed to parse extract_skills output into JSON format after 3 attempts. Raw: {raw_response}"
                 )
 
-def analyze_resume(resume_text: str, skills_json: dict, company: str):
+def analyze_resume(resume_text: str, job_description: str, company: str):
     """
-    Uses the LLM to compare the candidate's resume with the required skills JSON with parse retry logic.
+    Uses the LLM to compare the candidate's resume with the job description in a single call.
     """
-    skills_json_str = json.dumps(skills_json)
     prompt = f"""You are a recruiter at {company}. Consider hiring standards, company culture, and typical expectations.
 
-Compare the candidate resume with required skills.
+Compare the candidate resume with the following job description.
+Extract required skills from the job description and compare them against the resume.
+IMPORTANT: Consolidate similar skills, remove duplicates, and group skills with the same meaning. Keep the missing skills list concise (e.g. maximum 10-15 key skills).
 
 You must output ONLY valid JSON.
 No explanation text.
@@ -101,8 +107,8 @@ Return this exact format:
   "recommendations": []
 }}
 
-Skills Required:
-{skills_json_str}
+Job Description:
+{job_description}
 
 Candidate Resume:
 {resume_text}"""
@@ -130,11 +136,8 @@ def api_analyze_resume(data: ResumeRequest):
     company = data.company
     job_description = data.job_description
 
-    # 1. Extract Target JD Skills
-    skills_json = extract_skills(job_description, company)
-    
-    # 2. Compare JD against Resume
-    analysis_result = analyze_resume(resume_text, skills_json, company)
+    # 1. Compare JD against Resume in single hit
+    analysis_result = analyze_resume(resume_text, job_description, company)
     
     # 3. Shape the JSON object explicitly to what the React UI component needs
     return {
