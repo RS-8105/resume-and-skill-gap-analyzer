@@ -13,9 +13,12 @@ public class NlpService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    @org.springframework.beans.factory.annotation.Value("${NLP_SERVICE_URL:http://localhost:8000/analyze}")
+    private String nlpServiceUrl;
+
     public AnalysisResponse analyzeResume(String resumeText, String company, String jobDescription) {
 
-        String url = "http://localhost:8000/analyze";
+        String url = nlpServiceUrl;
 
         Map<String, String> request = new HashMap<>();
         request.put("resume_text", resumeText);
