@@ -4,6 +4,7 @@ An intelligent, AI-powered application that analyzes resumes against specific jo
 
 ## Project Structure
 
+
 This project uses a microservices architecture:
 *   **resume-analyzer-frontend**: A React application powered by Vite, featuring a sleek, responsive UI.
 *   **resume-analyzer-backend**: A Spring Boot Java service handling file uploads (PDF extraction) and orchestrating requests.
