@@ -13,7 +13,7 @@ public class NlpService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @org.springframework.beans.factory.annotation.Value("${NLP_SERVICE_URL:https://resume-and-skill-gap-analyzer.onrender.com/analyze}")
+    @org.springframework.beans.factory.annotation.Value("${NLP_SERVICE_URL:https://resume-and-skill-gap-analyzer-nlp.onrender.com/analyze}")
     private String nlpServiceUrl;
 
     public AnalysisResponse analyzeResume(String resumeText, String company, String jobDescription) {
