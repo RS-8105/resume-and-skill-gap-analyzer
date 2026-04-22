@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import html2pdf from 'html2pdf.js'
 import './App.css'
 
 const ProgressBar = ({ label, percentage, type }) => {
@@ -28,6 +29,141 @@ const SkillBadge = ({ skill, type }) => {
 
 const ResultCard = ({ result }) => {
   if (!result) return null;
+
+  const compOverview = result.companyOverview || result.company_overview;
+  const compGrowth = result.companyGrowth || result.company_growth;
+  const roleResp = result.roleResponsibilities || result.role_responsibilities;
+  const avgSalary = result.averageSalary || result.average_salary;
+  const optResume = result.optimizedResume || result.optimized_resume;
+  const companies = result.recommendedCompanies || result.recommended_companies || [];
+
+  const downloadResume = () => {
+    const element = document.getElementById('resume-document');
+    if (!element) return;
+    const opt = {
+      margin:       10,
+      filename:     'Optimized_Resume.pdf',
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+  };
+
+  const renderStyledResume = (rawText) => {
+    if (!rawText) return null;
+    let data = {};
+    try {
+      const match = rawText.match(/\{[\s\S]*\}/);
+      data = JSON.parse(match ? match[0] : rawText);
+    } catch(e) {
+      return <pre style={{whiteSpace: 'pre-wrap'}}>{rawText}</pre>;
+    }
+
+    const SectionHeader = ({title}) => (
+      <div style={{ color: '#0d47a1', borderBottom: '1.5px solid #0d47a1', margin: '8px 0 4px 0' }}>
+        <h4 style={{ margin: 0, fontSize: '11pt', textTransform: 'uppercase', fontWeight: 'bold' }}>{title}</h4>
+      </div>
+    );
+
+    return (
+      <div id="resume-document" style={{
+        backgroundColor: '#fff',
+        padding: '0.6in',
+        fontFamily: 'Arial, sans-serif',
+        textAlign: 'left',
+        color: '#000',
+        fontSize: '10pt',
+        lineHeight: '1.3',
+        maxWidth: '800px',
+        margin: '0 auto'
+      }}>
+        <div style={{ marginBottom: '15px' }}>
+          <div className="name">{data.name || 'YOUR NAME'}</div>
+          <div className="contact">
+            {[data.phone, data.email, data.linkedin, data.github, data.portfolio].filter(Boolean).join(' | ')}
+          </div>
+          <div className="divider"></div>
+        </div>
+
+        {data.objective && (
+          <div>
+            <SectionHeader title="Objective" />
+            <p style={{ margin: '2px 0' }}>{data.objective}</p>
+          </div>
+        )}
+
+        {data.education && (
+          <div>
+            <SectionHeader title="Education" />
+            <p style={{ margin: '2px 0' }}>{data.education}</p>
+          </div>
+        )}
+
+        {data.skills && Object.keys(data.skills).some(k => data.skills[k]) && (
+          <div>
+            <SectionHeader title="Technical Skills" />
+            {Object.entries(data.skills).map(([k, v]) => v ? (
+              <div key={k} style={{ margin: '3px 0' }}>
+                <strong>{k.charAt(0).toUpperCase() + k.slice(1)}:</strong> {v}
+              </div>
+            ) : null)}
+          </div>
+        )}
+
+        {data.projects && data.projects.length > 0 && (
+          <div>
+            <SectionHeader title="Projects" />
+            {data.projects.map((proj, i) => (
+              <div key={i} style={{ marginBottom: '6px' }}>
+                <div style={{ fontWeight: 'bold' }}>{proj.title}</div>
+                {proj.description && proj.description.length > 0 && (
+                  <ul style={{ margin: '3px 0 3px 20px', padding: 0 }}>
+                    {proj.description.map((desc, d) => <li key={d}>{desc}</li>)}
+                  </ul>
+                )}
+                {proj.tech_stack && <div style={{ color: '#555', fontSize: '9pt', marginTop: '2px' }}><strong>Tech Stack:</strong> {proj.tech_stack}</div>}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {data.exposure && data.exposure.length > 0 && (
+          <div>
+            <SectionHeader title="Practical Exposure" />
+            <ul style={{ margin: '3px 0 3px 20px', padding: 0 }}>
+              {data.exposure.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {data.achievements && data.achievements.length > 0 && (
+          <div>
+            <SectionHeader title="Achievements" />
+            <ul style={{ margin: '3px 0 3px 20px', padding: 0 }}>
+              {data.achievements.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {data.activities && data.activities.length > 0 && (
+          <div>
+            <SectionHeader title="Activities" />
+            <ul style={{ margin: '3px 0 3px 20px', padding: 0 }}>
+              {data.activities.map((item, i) => <li key={i}>{item}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {data.strengths && (
+          <div>
+            <SectionHeader title="Strengths" />
+            <p style={{ margin: '2px 0' }}>{data.strengths}</p>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="result-card">
@@ -81,6 +217,61 @@ const ResultCard = ({ result }) => {
           </ul>
         </div>
       )}
+
+      {(compOverview || compGrowth || roleResp || avgSalary) && (
+        <div className="recommendations-section" style={{marginTop: '25px'}}>
+          <h4>Company & Role Insights</h4>
+          {compOverview && (
+            <div style={{marginBottom: '15px'}}>
+              <strong>Company Overview</strong>
+              <p style={{margin: '5px 0 0 0', lineHeight: '1.5'}}>{compOverview}</p>
+            </div>
+          )}
+          {compGrowth && (
+            <div style={{marginBottom: '15px'}}>
+              <strong>Company Growth</strong>
+              <p style={{margin: '5px 0 0 0', lineHeight: '1.5'}}>{compGrowth}</p>
+            </div>
+          )}
+          {roleResp && (
+            <div style={{marginBottom: '15px'}}>
+              <strong>Role Responsibilities</strong>
+              <p style={{margin: '5px 0 0 0', lineHeight: '1.5'}}>{roleResp}</p>
+            </div>
+          )}
+          {avgSalary && (
+            <div>
+              <strong>Average Salary</strong>
+              <p style={{margin: '5px 0 0 0', lineHeight: '1.5'}}>{avgSalary}</p>
+            </div>
+          )}
+        </div>
+      )}
+      {companies.length > 0 && (
+        <div className="recommendations-section" style={{marginTop: '25px'}}>
+          <h4>Better Company Matches</h4>
+          {companies.map((c, i) => (
+            <div key={i} className="company-card">
+              <b>{c.company}</b>
+              <p>{c.reason}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {optResume && (
+        <div className="optimized-resume">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+            <h3 style={{ margin: 0 }}>Optimized Resume</h3>
+            <button className="analyze-btn" style={{ padding: '10px 20px', fontSize: '1rem' }} onClick={downloadResume}>
+              Download (.pdf)
+            </button>
+          </div>
+          <div style={{ border: '1px solid #ddd', maxHeight: '500px', overflowY: 'auto', backgroundColor: '#f9f9f9' }}>
+            {renderStyledResume(optResume)}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -88,7 +279,8 @@ const ResultCard = ({ result }) => {
 function App() {
   const [file, setFile] = useState(null)
   const [company, setCompany] = useState('')
-  const [jobDescription, setJobDescription] = useState('')
+  const [role, setRole] = useState('')
+  const [experience, setExperience] = useState('Beginner')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [result, setResult] = useState(null)
@@ -111,12 +303,13 @@ function App() {
     setResult(null)
 
     const formData = new FormData()
-    formData.append('file', file)
+    formData.append('resume', file)
     formData.append('company', company)
-    formData.append('jobDescription', jobDescription)
+    formData.append('role', role || 'the specified role')
+    formData.append('experience', experience)
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://resume-and-skill-gap-analyzer-backend.onrender.com'
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080'
       const response = await fetch(`${apiUrl}/upload`, {
         method: 'POST',
         body: formData,
@@ -132,6 +325,7 @@ function App() {
         throw new Error(data.error)
       }
       
+      console.log("Analysis Result:", data)
       setResult(data)
     } catch (err) {
       console.error('Error analyzing resume:', err)
@@ -161,15 +355,27 @@ function App() {
               placeholder="e.g. Stripe, Google..."
             />
           </div>
-          
+
           <div className="form-group">
-            <label>Job Description</label>
-            <textarea 
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
-              placeholder="Paste the raw requirements here..."
-              rows={5}
-            ></textarea>
+            <label>Target Role</label>
+            <input 
+              type="text" 
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              placeholder="e.g. Software Engineer..."
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Experience Level</label>
+            <select 
+              value={experience} 
+              onChange={(e) => setExperience(e.target.value)}
+            >
+              <option value="Beginner">Beginner (0-2 years)</option>
+              <option value="Intermediate">Intermediate (3-5 years)</option>
+              <option value="Experienced">Experienced (5+ years)</option>
+            </select>
           </div>
 
           <div className="form-group">

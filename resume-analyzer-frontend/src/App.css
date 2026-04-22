@@ -114,9 +114,9 @@ h1 {
   text-transform: uppercase;
 }
 
-input[type="text"], textarea {
+input[type="text"], textarea, select {
   width: 100%;
-  padding: 15px;
+  padding: 12px 15px;
   font-family: inherit;
   font-size: 1rem;
   font-weight: 600;
@@ -126,12 +126,13 @@ input[type="text"], textarea {
   box-shadow: 4px 4px 0px 0px var(--border-color);
   transition: all 0.2s ease;
   outline: none;
+  cursor: pointer;
 }
 
-input[type="text"]:focus, textarea:focus {
+input[type="text"]:focus, textarea:focus, select:focus {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0px 0px var(--border-color);
-  background-color: #fff9c4;
+  background-color: #ffffff;
 }
 
 /* File Upload Zone */
@@ -325,6 +326,64 @@ input[type="text"]:focus, textarea:focus {
   box-shadow: 4px 4px 0px 0px #000;
 }
 
+.optimized-resume {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 25px;
+  border-radius: 4px;
+  margin-top: 25px;
+}
+
+.optimized-resume h3 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.contact {
+  font-size: 12px;
+  text-align: center;
+  color: #444;
+  margin-top: 4px;
+}
+
+.company-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 6px;
+}
+
+.company-card b {
+  font-size: 1.1rem;
+  color: #0d47a1;
+  display: block;
+}
+
+.company-card p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.company-card span {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #2e7d32;
+}
+
+.divider {
+  border-top: 1px solid #000;
+  margin: 8px 0;
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .app-wrapper {

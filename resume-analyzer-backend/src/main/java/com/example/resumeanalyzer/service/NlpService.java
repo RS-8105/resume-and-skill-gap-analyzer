@@ -13,17 +13,18 @@ public class NlpService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @org.springframework.beans.factory.annotation.Value("${NLP_SERVICE_URL:https://resume-and-skill-gap-analyzer-nlp.onrender.com/analyze}")
+    @org.springframework.beans.factory.annotation.Value("${NLP_SERVICE_URL:http://127.0.0.1:8000/analyze}")
     private String nlpServiceUrl;
 
-    public AnalysisResponse analyzeResume(String resumeText, String company, String jobDescription) {
+    public AnalysisResponse analyzeResume(String resumeText, String company, String role, String experience) {
 
         String url = nlpServiceUrl;
 
         Map<String, String> request = new HashMap<>();
-        request.put("resume_text", resumeText);
+        request.put("resume", resumeText);
         request.put("company", company);
-        request.put("job_description", jobDescription);
+        request.put("role", role);
+        request.put("experience_level", experience);
 
         try {
             return restTemplate.postForObject(url, request, AnalysisResponse.class);

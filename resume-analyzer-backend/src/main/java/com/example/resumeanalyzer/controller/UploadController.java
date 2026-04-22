@@ -18,9 +18,10 @@ public class UploadController {
 
     @PostMapping("/upload")
     public ResponseEntity<AnalysisResponse> uploadFile(
-            @RequestParam("file") MultipartFile file,
+            @RequestParam("resume") MultipartFile file,
             @RequestParam("company") String company,
-            @RequestParam("jobDescription") String jobDescription) {
+            @RequestParam("role") String role,
+            @RequestParam(value = "experience", required = false) String experience) {
 
         AnalysisResponse response = new AnalysisResponse();
 
@@ -43,7 +44,7 @@ public class UploadController {
 
         try {
             // Send extracted text to Python service
-            response = nlpService.analyzeResume(text, company, jobDescription);
+            response = nlpService.analyzeResume(text, company, role, experience);
 
             // Check if Python service returned an error internally
             if (response != null && response.getError() != null) {

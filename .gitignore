@@ -214,3 +214,15 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/java,python,react
+
+# Graphify
+graphify-out/
+
+#techstack
+tech_stack_table.pdf
+
+#agent
+.agent/
+
+#run logs
+.run-logs/

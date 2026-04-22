@@ -10,6 +10,18 @@ public class AnalysisResponse {
     private List<String> recommendations;
     private String error;
 
+    @com.fasterxml.jackson.annotation.JsonProperty("company_overview")
+    private String companyOverview;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("company_growth")
+    private String companyGrowth;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("role_responsibilities")
+    private String roleResponsibilities;
+
+    @com.fasterxml.jackson.annotation.JsonProperty("average_salary")
+    private String averageSalary;
+
     public AnalysisResponse() {
     }
 
@@ -59,5 +71,91 @@ public class AnalysisResponse {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public String getCompanyOverview() {
+        return companyOverview;
+    }
+
+    public void setCompanyOverview(String companyOverview) {
+        this.companyOverview = companyOverview;
+    }
+
+    public String getCompanyGrowth() {
+        return companyGrowth;
+    }
+
+    public void setCompanyGrowth(String companyGrowth) {
+        this.companyGrowth = companyGrowth;
+    }
+
+    public String getRoleResponsibilities() {
+        return roleResponsibilities;
+    }
+
+    public void setRoleResponsibilities(String roleResponsibilities) {
+        this.roleResponsibilities = roleResponsibilities;
+    }
+
+    public String getAverageSalary() {
+        return averageSalary;
+    }
+
+    public void setAverageSalary(String averageSalary) {
+        this.averageSalary = averageSalary;
+    }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("optimized_resume")
+    private String optimizedResume;
+
+    public String getOptimizedResume() {
+        return optimizedResume;
+    }
+
+    public void setOptimizedResume(String optimizedResume) {
+        this.optimizedResume = optimizedResume;
+    }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("recommended_companies")
+    private List<RecommendedCompany> recommendedCompanies;
+
+    public List<RecommendedCompany> getRecommendedCompanies() {
+        return recommendedCompanies;
+    }
+
+    public void setRecommendedCompanies(List<RecommendedCompany> recommendedCompanies) {
+        this.recommendedCompanies = recommendedCompanies;
+    }
+
+    public static class RecommendedCompany {
+        private String company;
+        private String reason;
+        
+        @com.fasterxml.jackson.annotation.JsonProperty("fit_score")
+        private int fitScore;
+
+        public String getCompany() {
+            return company;
+        }
+
+        public void setCompany(String company) {
+            this.company = company;
+        }
+
+        public String getReason() {
+            return reason;
+        }
+
+        public void setReason(String reason) {
+            this.reason = reason;
+        }
+
+        public int getFitScore() {
+            return fitScore;
+        }
+
+        public void setFitScore(int fitScore) {
+            this.fitScore = fitScore;
+        }
     }
 }
