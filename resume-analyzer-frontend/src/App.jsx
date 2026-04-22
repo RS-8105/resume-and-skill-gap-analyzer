@@ -287,8 +287,17 @@ function App() {
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
-      setError(null)
+      const selectedFile = e.target.files[0];
+      const maxSize = 5 * 1024 * 1024; // 5MB threshold
+
+      if (selectedFile.size > maxSize) {
+        setError('Resume size exceeds 5MB limit. Please upload a smaller resume.');
+        setFile(null);
+        e.target.value = null; // Reset input
+      } else {
+        setFile(selectedFile);
+        setError(null);
+      }
     }
   }
 
